@@ -1,0 +1,34 @@
+# BeautifulSoup模块 
+
+from bs4 import BeautifulSoup
+
+soup = BeautifulSoup(html, 'lxml')
+soup.prettify()  #格式化代码
+soup.title.string #选取元素 ，第一个点为 标签  string 抽取文本 仅能选取第一个标签
+soup.head.title.string # 嵌套选择
+soup.p['name']  #获取属性
+soup.p.contents # 用于选取子节点htmlinner  输出列表
+soup.p.children  # 输出迭代器 并不是列表，需要用for进行输出
+for i, child in enumaerate(soup.p.children):    # enumaerate 以为美剧
+     print(i, child)
+
+soup.p.descendants  # 获得子孙节点 同样是迭代器
+soup.a.parent
+soup.a.parents # 父节点和祖先节点
+soup.a.next_siblings  -> list(enumerate(soup.a.next_siblings))   兄弟节点
+soup.a.previous_siblings  -> list(enumarate(soup.a.previous_siblings))
+
+标准选择器
+find_all(name, attrs, revursive, text, **kwargs)
+name : 标签名 传入字符串格式； attrs 属性 传入字典格式 ，
+或者 find_all(id="list-1")      find_all(text="这个文本的内容") 返回里面的内容，作为内容匹配，不建议内容查找
+find(name, attrs, revursive, text, **kwargs)  返回第一个元素 等同于 find_all()[0]
+find_parent(); find_parent()s
+find_next_siblings(), find_previous_siblings()
+find_next_sibling(), find_previous_sibling()
+find_all_next() ,find_next()   # 不是兄弟
+find_all_previous(), find_previous()  #不是兄弟 
+
+
+css选择 
+soup.select(css)

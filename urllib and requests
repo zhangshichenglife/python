@@ -1,0 +1,132 @@
+urllib模块的使用
+
+import urllib
+from urlib import request, parse, error
+
+url = "https://www.kennethreitz.org/"
+headers = {
+'Host': 'www.kennethreitz.org',
+'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:54.0) Gecko/20100101 Firefox/54.0'
+}
+dict = {
+'key':'value'
+}
+
+data = bytes(urllib.parse.urlencode(dict), encoding = 'utf-8')
+## 对请求进行封装
+req = urllib.request.Request(url=url, data=data, headers= headers, method='POST')
+
+# req.add_header()
+## 打开请求
+response = urllib.request.urlopen(req, timeout=1)
+response.read().decode('utf-8')
+
+# requests模块
+##  get请求   response = requests.get(url ,params=data)
+
+
+# reponse 属性
+reponse.history
+reponse.headers
+reponse.text   文本文件
+reponse.json()  json文件
+reponse.content  二进制文件
+reponse.status_code
+reponse.cookies
+reponse
+
+# 存储二进制
+with open(path, 'wb') as f:
+       f.write(reponse.content)
+       f.close()
+
+# post请求 
+headers = {}
+data ={}
+requests.post(url, headers = headers, data = data)
+
+# 文件上传
+files = ('file', open(path, 'rb'))
+reponse = request.post(url, files=files)
+print(reponse.text)
+
+#获取cookies
+cookies = reponse.cookies
+type(cookies)
+for key, value in reponse.cookies.items():
+     print(key + "=" + value)
+
+# 会话维持 session（模拟登陆） 强烈建议
+s = requests.Session()
+s.get(url1)
+reponse = s.get(url2)
+response.cookies
+
+# 证书验证
+ 在访问https 如果政府不合法会得到 SSLerror
+如果没有证书
+reponse= requests.get(url, verify=False)
+reponse.status_code  # 出现warning
+reponse.text
+# 不出现warning
+from requests.packages import urilib3
+urllib3.disable_warnings()
+reponse= requests.get(url, verify=False)
+reponse.status_code  # 不出现warning
+
+导入证书
+requests.get(url, cert=('/path/server.crt','/path/key'))
+
+
+# 设置代理
+proxies = {
+'http':'',
+'https':''
+}
+
+requests.get(url, proxies=proxies)
+import requests
+proxies = {
+'http':'',
+'https',''
+}
+reponse = requests.get(url, proxies= proxies)
+
+#代理需要用户密码
+proxies = {
+'http':'http://uer:password@127.0.0.1:9743/'
+}
+
+# socks代理
+# cmd 下运行安装 pip3 install 'requests[socks]'
+proxies = {
+'http':'socks5://127.0.0.1:9742',
+'https':'socks5://127.0.0.1:9742'
+}
+
+# 设置超时
+from requests.exceptions import ReadTimeout
+try:
+   requests.get(url, timeout=1)
+   except ReadTimeout:
+print(Timeout)
+
+# 认证设置 在登陆时输入用户名密码
+from requests.auth import HTTPBasicAuth
+r = requests.get(url, auth=HTTPBasicAuth('user','paswd'))
+
+r = requests.get(url, auth=('user','paswd'))
+
+# 异常处理
+
+from requests.exceptions import ReadTimeout,HTTPError,ConnectionError,RequestException
+
+try:
+    r = requests.get(url, timeout=1)
+except ReadTimeout:
+    print('Timeout')
+except Connection:
+    print('Connection error')
+
+
+ 
